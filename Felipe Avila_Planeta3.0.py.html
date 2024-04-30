@@ -1,0 +1,64 @@
+from vpython import *
+#Web VPython 3.2
+scene.lights[0].visible = True
+sun = sphere(color=vector(1, 1, 0), pos=vec(0, 0, 0), radius=1.5, opacity=1.0, shininess=0, emissive=True, texture = "http://i.imgur.com/yoEzbtg.jpg")
+mercurio = sphere(texture="https://cdn.pixabay.com/photo/2020/02/04/17/08/map-4818866_1280.jpg", pos=vector(4,-0.20, 0), radius=0.3, make_trail=True)
+venus = sphere(texture="https://upload.wikimedia.org/wikipedia/commons/1/1c/Solarsystemscope_texture_8k_venus_surface.jpg", pos=vector(7, 0, 0), radius=0.6, make_trail=True)
+earth = sphere(texture="http://i.imgur.com/rhFu01b.jpg",pos=vector(10, 0, 0), radius=0.7, make_trail=False)
+marte = sphere(texture="https://upload.wikimedia.org/wikipedia/commons/9/92/VallesMarinerisHuge.jpg", pos=vector(15, 0, 0),radius=0.5, make_trail=True)
+jupiter = sphere(texture="https://upload.wikimedia.org/wikipedia/commons/6/67/Global_Jupiter_Portrait.jpg", pos=vector(22, 0, 0), radius=1.4, make_trail=True)
+saturno = sphere(texture="https://upload.wikimedia.org/wikipedia/commons/1/1e/Solarsystemscope_texture_8k_saturn.jpg", pos=vector(30, 0, 0), radius=1.9, make_trail=True)
+urano=sphere(texture="https://upload.wikimedia.org/wikipedia/commons/9/95/Solarsystemscope_texture_2k_uranus.jpg", pos=vec(40,-10,0),radius=1.5, flipx = False , shininess = 0.9, make_trail=True)
+netuno = sphere(texture="https://upload.wikimedia.org/wikipedia/commons/1/1e/Solarsystemscope_texture_2k_neptune.jpg", pos=vector(50, 0, 0), radius=1.8, make_trail=True)
+
+moon = sphere(color=vector(0.5, 0.5, 0.5), pos=vec(16.5, 0, 0), radius=0.2, shininess=10, make_trail=True)
+lamp = local_light(pos=vector(0, 0, 0), color=vector(1, 1, 1))
+
+sunlight = local_light(pos=vec(0, 0, 0), color=color.white)
+more_sunlight = local_light(pos=vec(0, 0, 0), color=color.white)
+
+earth.make_trail = True
+moon.make_trail = False
+framerate = 60
+
+scene.camera.follow(sun)
+scene.bind("mousedown", changeView)
+
+def changeView():
+    chosenObject = scene.mouse.pick()
+    if chosenObject != None:
+        scene.camera.follow(chosenObject)
+
+earthOmega=2*3.14159/365
+mercurioOmega=2*3.14159/88
+venusOmega=2*3.14159/225
+marteOmega=2*3.14159/687
+jupiterOmega=2*3.14159/4333
+saturnoOmega=2*3.14159/10759
+uranoOmega=2*3.14159/30687
+netunoOmega=2*3.54159/60190
+
+moonAngle = 0
+moonOmega = 2 * 3.14159 / 200
+
+
+while True:
+    rate(framerate)
+    earth.rotate(angle=earthOmega, axis=vector(0.02,1,0.02), origin=vector(0,0,0))
+    moonAngle+=moonOmega
+    moon.pos=earth.pos + vector(2,0,0)
+    moon.rotate(angle=moonAngle, axis=vector(0,1,0), origin=earth.pos)
+    venus.rotate(angle=venusOmega, axis=vector(0.0068,1,0.0068), origin=vector(0,1,0))    
+    mercurio.rotate(angle=mercurioOmega, axis=vector(0.2056,1,0.2056), origin=vector(0,1,0))
+    marte.rotate(angle=marteOmega, axis=vector(0.0935,1,0.0934), origin=vector(0,1,0))
+    jupiter.rotate(angle=jupiterOmega, axis=vector(0.0485,1,0.0485), origin=vector(0,1,0))
+    saturno.rotate(angle=saturnoOmega, axis=vector(0.0556,1,0.0556), origin=vector(0,1,0))
+    urano.rotate(angle=uranoOmega, axis=vector(0.40,1,0.40), origin=vector(0,1,0))
+    netuno.rotate(angle=netunoOmega, axis=vector(0.0086,1,0.0086), origin=vector(0,1,0))
+    
+
+    moonAngle += moonOmega
+
+    moon.pos = earth.pos + vector(1.5, 0, 0)
+    moon.rotate(angle=moonAngle, axis=vector(0, 1, 0), origin=earth.pos)
+
